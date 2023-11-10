@@ -7,12 +7,6 @@
         "rules": [
             {
                 "type": "field",
-                "port": "443",
-                "network": "udp",
-                "outboundTag": "block"
-            },
-            {
-                "type": "field",
                 "ip": [
                     "geoip:cn",
                     "geoip:private"
@@ -23,21 +17,31 @@
     },
     "inbounds": [
         {
-            "listen": "127.0.0.1",
-            "port": 8001,
+            "listen": "0.0.0.0",
+            "port": 443,
             "protocol": "vless",
             "settings": {
                 "clients": [
                     {
-                        "id": "chika" // 长度为 1-30 字节的任意字符串，或执行 xray uuid 生成
+                        "id": "chika", // 长度为 1-30 字节的任意字符串，或执行 xray uuid 生成
+                        "flow": "xtls-rprx-vision"
                     }
                 ],
                 "decryption": "none"
             },
             "streamSettings": {
-                "network": "grpc",
-                "grpcSettings": {
-                    "serviceName": "chika" // gRPC 服务名称
+                "network": "tcp",
+                "security": "tls",
+                "tlsSettings": {
+                    "rejectUnknownSni": true,
+                    "minVersion": "1.2",
+                    "certificates": [
+                        {
+                            "ocspStapling": 3600,
+                            "certificateFile": "/etc/ssl/private/fullchain.cer",
+                            "keyFile": "/etc/ssl/private/private.key"
+                        }
+                    ]
                 }
             },
             "sniffing": {
