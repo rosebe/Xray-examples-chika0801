@@ -10,16 +10,16 @@
             "https://223.5.5.5/dns-query",
             {
                 "address": "fakedns",
-                "domains": [ 
+                "domains": [
                     "geosite:geolocation-!cn"
                 ],
                 "skipFallback": true
             }
         ],
-        "queryStrategy": "UseIPv4"
+        "queryStrategy": "UseIP"
     },
     "routing": {
-        "domainStrategy": "AsIs",
+        "domainStrategy": "IPIfNonMatch",
         "rules": [
             {
                 "type": "field",
@@ -63,9 +63,12 @@
             "sniffing": {
                 "enabled": true,
                 "destOverride": [
+                    "http",
+                    "tls",
+                    "quic",
                     "fakedns"
                 ],
-            "routeOnly": false
+                "routeOnly": false
             }
         },
         {
@@ -87,6 +90,9 @@
         },
         {
             "protocol": "freedom",
+            "settings": {
+                "domainStrategy": "UseIPv4"
+            },
             "tag": "direct"
         },
         {
@@ -96,7 +102,7 @@
         {
             "protocol": "dns",
             "settings": { // 若不写 "settings" 字段，使用默认值
-                "nonIPQuery": "drop" // 默认值 "drop"，阻止非 A/AAAA 的查询，"skip"，允许非 A/AAAA 的查询，
+                "nonIPQuery": "drop" // 默认值 "drop"，阻止非 A/AAAA 的查询，"skip"，允许非 A/AAAA 的查询
             },
             "proxySettings": { // 当 "nonIPQuery": "skip" 时，若不写 "proxySettings" 字段，使用本地网络出站，若写了使用对应 "tag" 出站
                 "tag": "direct" // 目的地址是 "tag": "dns-in" 中 "settings" 字段的内容
