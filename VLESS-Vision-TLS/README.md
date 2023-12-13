@@ -1,7 +1,3 @@
-### 注意：
-
-:exclamation:gRPC/H2 建议在有优化回程路由的VPS上使用。如 CN2-GIA、AS9929/AS10099、CMI/CMIN2、AS4837 等。并且你到VPS之间的延迟越低越好。建议参考 NaïveProxy 的 [Performance Tuning](https://github.com/klzgrad/naiveproxy/wiki/Performance-Tuning) 进行优化。除此以外，可以参考[文档](https://xtls.github.io/Xray-docs-next/config/transports/grpc.html#grpcobject)，使用[健康检查](https://github.com/chika0801/Xray-examples/blob/main/VLESS-gRPC/config_client.json#L60)参数。
-
 **将 chika.example.com 替换成你的 SSL 证书中包含的域名**
 
 ### v2rayN - V6.19 及以上版本 配置示例
@@ -13,12 +9,12 @@
 | 地址 | 服务端的 IP |
 | 端口 | 443 |
 | 用户ID | chika |
-| 流控 | 留空 |
+| 流控 | xtls-rprx-vision |
 | 加密方式 | none |
-| 传输协议 | grpc |
-|  | multi |
+| 传输协议 | tcp |
+| 伪装类型 | none |
 | 伪装域名 | 留空 |
-| 路径 | chika |
+| 路径 | 留空 |
 | 传输层安全 | tls |
 | SNI | chika.example.com |
 | Fingerprint | chrome |
@@ -36,17 +32,17 @@
 | 地址 | 服务端的 IP |
 | 端口 | 443 |
 | 用户ID | chika |
-| 流控 | 留空 |
+| 流控 | xtls-rprx-vision |
 | 加密方式 | none |
-| 传输协议 | grpc |
-| gRPC 传输模式 | multi |
+| 传输协议 | tcp |
+| 伪装类型 | none |
 | 伪装域名 | 留空 |
-| path | chika |
+| path | 留空 |
 | 传输层安全 | tls |
 | SNI | chika.example.com |
 | Fingerprint | chrome |
 | Alpn | 留空 |
-| 路过证书验证 | false |
+| 跳过证书验证 | false |
 
 </details>
 
@@ -61,16 +57,13 @@
 | 端口 | 443 |
 | UUID | chika |
 | TLS | 选上 |
-| XTLS | none |
+| XTLS | xtls-rprx-vision |
 | 允许不安全 | 不选 |
 | SNI | chika.example.com |
 | ALPN | 留空 |
 | 公钥 | 留空 |
 | 短 ID | 留空 |
-| 传输方式 |  |
-| 名称 | grpc |
-| Host | 留空 |
-| 服务名称 | chika |
+| 传输方式 | none |
 | 多路复用 | 不选 |
 | TCP 快速打开 | 不选 |
 | UDP 转发 | 选上 |
@@ -91,18 +84,14 @@
 | 加密方式 | none |
 | ID | chika |
 | TLS | 勾上 |
-| flow | 停用 |
+| flow | xtls-rprx-vision |
 | REALITY | 不勾 |
 | alpn | 默认 |
 | 域名 | chika.example.com |
 | 允许不安全连接 | 不勾 |
 | 指纹伪造 | chrome |
-| 传输协议 | gRPC |
-| ServiceName | chika |
-| gRPC 传输模式 | multi |
-| 健康检查 | 不勾 |
-| 初始窗口大小 | 0 |
-| MUX | 不勾 |
+| 传输协议 | TCP |
+| 伪装类型 | none |
 
 </details>
 
@@ -118,12 +107,10 @@
 | 端口 | 443 |
 | Vmess/VLESS ID (UUID) | chika |
 | VLESS 加密 | none |
-| 传输协议 | gRPC |
-| gRPC 服务名称 | chika |
-| gRPC 模式 | Multi |
-| 初始窗口大小 | 0 |
-| H2/gRPC 健康检查 | 不勾 |
+| 传输协议 | TCP |
+| 伪装类型 | 无 |
 | TLS | 勾上 |
+| 流控（Flow） | xtls-rprx-vision |
 | 指纹伪造 | chrome |
 | TLS 主机名 | chika.example.com |
 | TLS ALPN | 留空 |
@@ -132,5 +119,35 @@
 | 自签证书 | 不勾 |
 | 启用自动切换 | 不勾 |
 | 本地端口 | 1234 |
+
+</details>
+
+### HomeProxy 配置示例
+
+<details><summary>点击查看</summary><br>
+
+| 名称 | 值 |
+| :--- | :--- |
+| 类型 | VLESS |
+| 地址 | 服务端的 IP |
+| 端口 | 443 |
+| UUID | chika |
+| 流控 | xtls-rprx-vision |
+| 传输层 | 无 |
+| 数据包编码 | Xudp (Xray-core) |
+| 多路复用 | 不勾 |
+| TLS | 勾上 |
+| TLS SNI | chika.example.com |
+| TLS ALPN | 留空 |
+| 允许不安全连接 | 不勾 |
+| 最低 TLS 版本 | 默认 |
+| 最大 TLS 版本 | 默认 |
+| 密码套件 | -- 请选择 -- |
+| 追加自签名证书 | 不勾 |
+| uTLS 指纹 | Chrome |
+| REALITY | 不勾 |
+| TCP 快速打开 | 不勾 |
+| 多路径 TCP（MPTCP） | 不勾 |
+| UDP 分片 | 不勾 |
 
 </details>
