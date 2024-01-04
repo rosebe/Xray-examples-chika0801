@@ -33,55 +33,15 @@
                 "outboundTag": "dns-out"
             },
             {
-                "port": 853,
-                "network": "tcp",
-                "outboundTag": "block"
-            },
-            {
                 "port": 443,
                 "network": "udp",
                 "outboundTag": "block"
             },
             {
                 "domain": [
-                    "domain:httpdns.alicdn.com",
-                    "domain:httpdns-api.aliyuncs.com",
-                    "domain:httpdns-sc.aliyuncs.com",
-                    "domain:httpsdns.baidu.com",
-                    "domain:httpdns.baidu.com",
-                    "domain:httpdns.baidubce.com",
-                    "domain:httpdns.bilivideo.com",
-                    "domain:httpdns.c.cdnhwc2.com",
-                    "domain:dns.jd.com",
-                    "domain:kuaishou.httpdns.pro",
-                    "domain:httpdns.meituan.com",
-                    "domain:httpdns.n.netease.com",
-                    "domain:httpdns.music.163.com",
-                    "domain:music.httpdns.c.163.com",
-                    "domain:lofter.httpdns.c.163.com",
-                    "domain:httpdns.push.oppomobile.com",
-                    "domain:httpdns.volcengineapi.com",
-                    "domain:dns.weibo.cn",
-                    "domain:dns.weixin.qq.com",
-                    "domain:dns.weixin.qq.com.cn"
+                    "geosite:category-httpdns"
                 ],
                 "outboundTag": "block"
-            },
-            {
-                "domain": [
-                    "geosite:category-ads-all",
-                    "domain:mcdn.bilivideo.cn",
-                    "domain:szbdyd.com",
-                    "regexp:cn-[a-zA-Z0-9-]+\\.bilivideo\\.com",
-                    "regexp:[a-zA-Z0-9-]+-pcdn-[a-zA-Z0-9-]+\\.biliapi\\.net"
-                ],
-                "outboundTag": "block"
-            },
-            {
-                "domain": [
-                    "geosite:geolocation-!cn"
-                ],
-                "outboundTag": "proxy"
             },
             {
                 "ip": [
@@ -111,6 +71,22 @@
                     "2402:4e00:1200:ed00:0:9089:6dac:96b6/128"
                 ],
                 "outboundTag": "block"
+            },
+            {
+                "domain": [
+                    "geosite:category-ads-all",
+                    "domain:mcdn.bilivideo.cn",
+                    "domain:szbdyd.com",
+                    "regexp:cn-[a-zA-Z0-9-]+\\.bilivideo\\.com",
+                    "regexp:[a-zA-Z0-9-]+-pcdn-[a-zA-Z0-9-]+\\.biliapi\\.net"
+                ],
+                "outboundTag": "block"
+            },
+            {
+                "domain": [
+                    "geosite:geolocation-!cn"
+                ],
+                "outboundTag": "proxy"
             },
             {
                 "ip": [
