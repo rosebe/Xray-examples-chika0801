@@ -4,6 +4,7 @@
     },
     "dns": {
         "hosts": {
+            "geosite:category-httpdns": "127.0.0.1",
             "geosite:category-ads-all": "127.0.0.1",
             "domain:mcdn.bilivideo.cn": "127.0.0.1",
             "domain:szbdyd.com": "127.0.0.1",
@@ -17,14 +18,13 @@
                 "domains": [
                     "geosite:geolocation-!cn"
                 ],
-                "skipFallback": true,
-                "queryStrategy": "UseIPv4"
+                "skipFallback": true
             }
         ],
-        "queryStrategy": "UseIP"
+        "queryStrategy": "UseIPv4"
     },
     "routing": {
-        "domainStrategy": "IPIfNonMatch",
+        "domainStrategy": "AsIs",
         "rules": [
             {
                 "inboundTag": [
@@ -33,15 +33,21 @@
                 "outboundTag": "dns-out"
             },
             {
-                "port": 443,
-                "network": "udp",
+                "domain": [
+                    "geosite:category-httpdns",
+                    "geosite:category-ads-all",
+                    "domain:mcdn.bilivideo.cn",
+                    "domain:szbdyd.com",
+                    "regexp:cn-[a-zA-Z0-9-]+\\.bilivideo\\.com",
+                    "regexp:[a-zA-Z0-9-]+-pcdn-[a-zA-Z0-9-]+\\.biliapi\\.net"
+                ],
                 "outboundTag": "block"
             },
             {
                 "domain": [
-                    "geosite:category-httpdns"
+                    "geosite:geolocation-!cn"
                 ],
-                "outboundTag": "block"
+                "outboundTag": "proxy"
             },
             {
                 "ip": [
@@ -70,23 +76,7 @@
                     "118.89.204.198/23",
                     "2402:4e00:1200:ed00:0:9089:6dac:96b6/128"
                 ],
-                "outboundTag": "block"
-            },
-            {
-                "domain": [
-                    "geosite:category-ads-all",
-                    "domain:mcdn.bilivideo.cn",
-                    "domain:szbdyd.com",
-                    "regexp:cn-[a-zA-Z0-9-]+\\.bilivideo\\.com",
-                    "regexp:[a-zA-Z0-9-]+-pcdn-[a-zA-Z0-9-]+\\.biliapi\\.net"
-                ],
-                "outboundTag": "block"
-            },
-            {
-                "domain": [
-                    "geosite:geolocation-!cn"
-                ],
-                "outboundTag": "proxy"
+                "outboundTag": "block" // httpdns
             },
             {
                 "ip": [
@@ -112,7 +102,8 @@
                     "tls",
                     "quic",
                     "fakedns"
-                ]
+                ],
+                "routeOnly": true
             }
         },
         {
@@ -129,47 +120,11 @@
     ],
     "outbounds": [
         {
-            "protocol": "vless",
-            "settings": {
-                "vnext": [
-                    {
-                        "address": "",
-                        "port": 443,
-                        "users": [
-                            {
-                                "id": "chika",
-                                "encryption": "none",
-                                "flow": "xtls-rprx-vision"
-                            }
-                        ]
-                    }
-                ]
-            },
-            "streamSettings": {
-                "network": "tcp",
-                "security": "tls",
-                "tlsSettings": {
-                    "serverName": "",
-                    "fingerprint": "chrome"
-                },
-                "sockopt": {
-                    "tcpMptcp": true,
-                    "tcpNoDelay": true
-                }
-            },
-            "mux": {
-                "enabled": true,
-                "concurrency": -1,
-                "xudpConcurrency": 16,
-                "xudpProxyUDP443": "reject"
-            },
+            // 粘贴你的客户端配置，需要保留 "tag": "proxy"
             "tag": "proxy"
         },
         {
             "protocol": "freedom",
-            "settings": {
-                "domainStrategy": "ForceIPv6v4"
-            },
             "tag": "direct"
         },
         {
@@ -178,12 +133,6 @@
         },
         {
             "protocol": "dns",
-            "settings": {
-                "nonIPQuery": "drop"
-            },
-            "proxySettings": {
-                "tag": "direct"
-            },
             "tag": "dns-out"
         }
     ]

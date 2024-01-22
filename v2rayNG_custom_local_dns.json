@@ -9,18 +9,17 @@
         "servers": [
             "https+local://223.5.5.5/dns-query",
             {
-                "address": "1.1.1.1",
+                "address": "https://1.1.1.1/dns-query",
                 "domains": [
                     "geosite:geolocation-!cn"
                 ],
-                "skipFallback": true,
-                "queryStrategy": "UseIPv4"
+                "skipFallback": true
             }
         ],
-        "queryStrategy": "UseIP"
+        "queryStrategy": "UseIPv4"
     },
     "routing": {
-        "domainStrategy": "IPIfNonMatch",
+        "domainStrategy": "AsIs",
         "rules": [
             {
                 "type": "field",
@@ -31,9 +30,10 @@
             },
             {
                 "type": "field",
-                "port": 443,
-                "network": "udp",
-                "outboundTag": "block"
+                "ip": [
+                    "1.1.1.1"
+                ],
+                "outboundTag": "proxy"
             },
             {
                 "type": "field",
@@ -74,7 +74,7 @@
                     "tls",
                     "quic"
                 ],
-                "routeOnly": false
+                "routeOnly": true
             }
         },
         {
@@ -97,7 +97,7 @@
         {
             "protocol": "freedom",
             "settings": {
-                "domainStrategy": "UseIP"
+                "domainStrategy": "ForceIPv4"
             },
             "tag": "direct"
         },

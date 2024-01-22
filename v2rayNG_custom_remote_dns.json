@@ -7,20 +7,12 @@
             "geosite:category-ads-all": "127.0.0.1"
         },
         "servers": [
-            "1.1.1.1",
-            {
-                "address": "1.1.1.1",
-                "domains": [
-                    "geosite:geolocation-!cn"
-                ],
-                "skipFallback": true,
-                "queryStrategy": "UseIPv4"
-            }
+            "https://1.1.1.1/dns-query"
         ],
-        "queryStrategy": "UseIP"
+        "queryStrategy": "UseIPv4"
     },
     "routing": {
-        "domainStrategy": "IPIfNonMatch",
+        "domainStrategy": "AsIs",
         "rules": [
             {
                 "type": "field",
@@ -31,9 +23,10 @@
             },
             {
                 "type": "field",
-                "port": 443,
-                "network": "udp",
-                "outboundTag": "block"
+                "ip": [
+                    "1.1.1.1"
+                ],
+                "outboundTag": "proxy"
             },
             {
                 "type": "field",
@@ -46,6 +39,9 @@
                 "type": "field",
                 "domain": [
                     "geosite:geolocation-!cn"
+                ],
+                "ip": [
+                    "geoip:!cn"
                 ],
                 "outboundTag": "proxy"
             },
@@ -74,7 +70,7 @@
                     "tls",
                     "quic"
                 ],
-                "routeOnly": false
+                "routeOnly": true
             }
         },
         {
@@ -97,7 +93,7 @@
         {
             "protocol": "freedom",
             "settings": {
-                "domainStrategy": "UseIP"
+                "domainStrategy": "ForceIPv4"
             },
             "tag": "direct"
         },
