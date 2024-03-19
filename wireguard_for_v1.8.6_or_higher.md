@@ -55,7 +55,6 @@ curl -sL "https://api.zeroteam.top/warp?format=sing-box" | grep -Eo --color=neve
 
 ```jsonc
             {
-                "type": "field",
                 "domain": [
                     "geosite:openai"
                 ],
@@ -104,14 +103,12 @@ curl -sL "https://api.zeroteam.top/warp?format=sing-box" | grep -Eo --color=neve
         "domainStrategy": "IPIfNonMatch",
         "rules": [
             {
-                "type": "field",
                 "domain": [
                     "geosite:openai"
                 ],
                 "outboundTag": "warp"
             },
             {
-                "type": "field",
                 "ip": [
                     "geoip:cn"
                 ],
@@ -185,5 +182,3 @@ curl -sL "https://api.zeroteam.top/warp?format=sing-box" | grep -Eo --color=neve
 
 **2：** 提示`你已经有 IPv6 地址了，但你的浏览器不太愿意用，这一点比较令人担心。`<br>
 **3：** 有机率提示`你已经有 IPv6 地址了，但你的浏览器不太愿意用，这一点比较令人担心。`
-
-### [另一种方式](/VLESS-Vision-TLS/config_server_without_fallback.json)

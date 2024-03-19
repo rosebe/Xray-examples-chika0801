@@ -35,20 +35,31 @@
                         "users": [
                             {
                                 "id": "chika", // 与服务端一致
-                                "encryption": "none",
-                                "flow": "xtls-rprx-vision"
+                                "encryption": "none"
                             }
                         ]
                     }
                 ]
             },
             "streamSettings": {
-                "network": "tcp",
+                "network": "ws",
+                "wsSettings": {
+                    "path": "/lovelive?ed=2560", // 与服务端一致，建议增加 ?ed=2560 以启用 0-RTT 降低延迟
+                    "headers": {
+                        "host": "chika.example.com" // 由于在 Nginx 配置中启用了 ssl_reject_handshake，此处必须填 Nginx 配置中 server_name 的值
+                    }
+                },
                 "security": "tls",
                 "tlsSettings": {
                     "serverName": "",
                     "fingerprint": "chrome"
                 }
+            },
+            "mux": {
+                "enabled": true, // 建议启用 Mux
+                "concurrency": 8,
+                "xudpConcurrency": 16,
+                "xudpProxyUDP443": "reject"
             },
             "tag": "proxy"
         },

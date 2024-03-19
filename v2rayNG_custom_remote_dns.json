@@ -15,21 +15,28 @@
         "domainStrategy": "AsIs",
         "rules": [
             {
-                "type": "field",
                 "inboundTag": [
                     "dns-in"
                 ],
                 "outboundTag": "dns-out"
             },
             {
-                "type": "field",
+                "port": "853",
+                "network": "tcp",
+                "outboundTag": "block"
+            },
+            {
+                "port": "443,853",
+                "network": "udp",
+                "outboundTag": "block"
+            },
+            {
                 "ip": [
                     "1.1.1.1"
                 ],
                 "outboundTag": "proxy"
             },
             {
-                "type": "field",
                 "domain": [
                     "geosite:category-ads-all"
                 ],
@@ -46,7 +53,6 @@
                 "outboundTag": "proxy"
             },
             {
-                "type": "field",
                 "ip": [
                     "geoip:cn",
                     "geoip:private"
